@@ -1,0 +1,70 @@
+version: "3"
+services:
+  redis1:
+    image: redis
+    container_name: redis1
+    ports:
+      - 6380:6379
+    volumes:
+      - ./redis1/data:/data
+      - ./redis1/conf:/etc/redis/redis.conf:rw
+    privileged: true
+  redis2:
+    image: redis
+    container_name: redis2
+    ports:
+      - 6381:6379
+    volumes:
+      - ./redis2/data:/data
+      - ./redis2/conf:/etc/redis/redis.conf:rw
+    privileged: true
+  mysql1:
+    image: mysql:5.7
+    container_name: mysql1
+    restart: always
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql1/conf.d:/etc/mysql/conf.d:rw     #配置文件挂载到当前宿主机的/home/mysql/conf
+      - ./mysql1/data:/var/lib/mysql:rw            #数据挂载到当前宿主机的 /home/mysql/data
+      - ./mysql1/my.cnf:/etc/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+  mysql2:
+    image: mysql:5.7
+    container_name: mysql2
+    restart: always
+    ports:
+      - 3308:3306
+    volumes:
+      - ./mysql2/conf.d:/etc/mysql/conf.d:rw     #配置文件挂载到当前宿主机的/home/mysql/conf
+      - ./mysql2/data:/var/lib/mysql:rw            #数据挂载到当前宿主机的 /home/mysql/data
+      - ./mysql2/my.cnf:/etc/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    ports:
+      - 9091:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+  gitlab:
+    image: gitlab/gitlab-ce
+    container_name: gitlab
+    restart: always
+    ports:
+      - "10010:80"
+      - "10011:443"
+      - "10012:22"
+    volumes:
+      - ./gitlab/data:/var/opt/gitlab
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
