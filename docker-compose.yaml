@@ -72,8 +72,8 @@ services:
     image: elasticsearch:7.17.7
     container_name: es
     ports:
-      - "9202:9200"
-      - "9302:9300"
+      - "9200:9200"
+      - "9300:9300"
     environment:
       - discovery.type=single-node
   kibana:
