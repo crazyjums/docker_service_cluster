@@ -68,3 +68,15 @@ services:
       - ./gitlab/data:/var/opt/gitlab
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/logs:/var/log/gitlab
+  es:
+    image: elasticsearch:7.17.7
+    container_name: es
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.0.0
+    volumes:
+      - ./es/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml

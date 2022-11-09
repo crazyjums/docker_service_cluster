@@ -1,6 +1,3 @@
 .idea
-nginx/logs/localhost/*
-nginx/error.log
-nginx/access.log
 gitlab
 gitlab/*
