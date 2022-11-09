@@ -72,11 +72,12 @@ services:
     image: elasticsearch:7.17.7
     container_name: es
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9202:9200"
+      - "9302:9300"
     environment:
       - discovery.type=single-node
   kibana:
     image: docker.elastic.co/kibana/kibana:6.0.0
+    container_name: kibana
     volumes:
-      - ./es/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./es/kibana/config:/usr/share/kibana/config:rw
