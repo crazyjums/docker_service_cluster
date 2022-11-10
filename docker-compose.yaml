@@ -76,8 +76,16 @@ services:
       - "9300:9300"
     environment:
       - discovery.type=single-node
+    volumes:
+      - ./es/elasticsearch/config:/usr/share/elasticsearch/config
+      - ./es/elasticsearch/data:/usr/share/elasticsearch/data:rw
   kibana:
     image: docker.elastic.co/kibana/kibana:6.0.0
     container_name: kibana
-    volumes:
-      - ./es/kibana/config:/usr/share/kibana/config:rw
+    ports:
+      - "5601:5601"
+    environment:
+        SERVER_NAME: mykibana
+        ELASTICSEARCH_URL: http://localhost:9200
+    # volumes:
+    #   - ./es/kibana/config:/usr/share/kibana/config:rw
